@@ -14,10 +14,17 @@ def get_today_calories(owner_id: int, session: Session):
 
     foods = session.exec(statement).all()
 
-    total = 0
+    total = {"calories": 0.0,
+             "protein":0.0,
+             "carbs":0.0,
+             "fat":0.0}
 
     for food in foods:
-        total += food.calories
+        total["calories"] += food.calories
+        total["protein"] += food.protein
+        total["calories"] += food.carbs
+        total["calories"] += food.fat
+
 
     return total
 #fin

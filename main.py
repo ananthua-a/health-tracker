@@ -2,12 +2,13 @@ from fastapi import FastAPI,Depends,HTTPException,Request,UploadFile
 from fastapi.security import OAuth2PasswordRequestForm
 from sqlmodel import select
 from db import create_db_and_tables,get_session,Session
-from models import UserCreate,User,FoodAnalysisResponse,AnalyzeImageResponse
+from models import UserCreate,User,FoodAnalysisResponse,AnalyzeImageResponse,FoodEntry
 from security import Hash_password,create_access_token,create_refresh_token,verify_password,get_current_user
 from exception import global_exception_handler
 from ai_service import analyze_meal_image
 from nutrition_service import create_food_entry,get_macros
 from service import get_today_calories
+from datetime import datetime
 app =FastAPI()
 import time
 
@@ -148,7 +149,7 @@ async def analyze_image(
           
 
  
-@app.get("/daily-calorie")
+@app.get("/daily-macros")
 def daily_calories(current_user: User = Depends(get_current_user), session: Session = Depends(get_session)):
     if current_user.id is None:
         raise HTTPException(
@@ -157,9 +158,25 @@ def daily_calories(current_user: User = Depends(get_current_user), session: Sess
         )
 
     total = get_today_calories(current_user.id, session)
-    return {"total_calories": total}
+    return {"total_macros": total}
+
+@app.get("/foods/today")
+def get_today_foods(
+    current_user: User = Depends(get_current_user),
+    session: Session = Depends(get_session)
+):
+
+    today = datetime.today()
+
+    statement = select(FoodEntry).where(
+        FoodEntry.owner_id == current_user.id,
+        FoodEntry.created_at >= today
+    )
+
+    foods = session.exec(statement).all()
+    print(foods)
 
 
-
+    return foods
 #fin
 

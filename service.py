@@ -20,3 +20,4 @@ def get_today_calories(owner_id: int, session: Session):
         total += food.calories
 
     return total
+#fin

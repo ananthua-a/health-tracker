@@ -7,6 +7,7 @@ from security import Hash_password,create_access_token,create_refresh_token,veri
 from exception import global_exception_handler
 from ai_service import analyze_meal_image
 from nutrition_service import create_food_entry,get_macros
+from service import get_today_calories
 app =FastAPI()
 import time
 
@@ -145,29 +146,19 @@ async def analyze_image(
         foods=response_foods
     )
           
+
  
-     
+@app.get("/daily-calorie")
+def daily_calories(current_user: User = Depends(get_current_user), session: Session = Depends(get_session)):
+    if current_user.id is None:
+        raise HTTPException(
+            status_code=400,
+            detail="Authenticated user missing id"
+        )
+
+    total = get_today_calories(current_user.id, session)
+    return {"total_calories": total}
 
 
-@app.post("/food-entry")
-def add_food(
-    owner_id: int,
-    food_name: str,
-    quantity: float,
-    calories: float,
-    protein: float,
-    carbs: float,
-    fat: float,
-    session: Session = Depends(get_session)
-):
 
-    return create_food_entry(
-        owner_id=owner_id,
-        food_name=food_name,
-        quantity=quantity,
-        calories=calories,
-        protein=protein,
-        carbs=carbs,
-        fat=fat,
-        session=session
-    )
+

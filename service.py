@@ -22,8 +22,8 @@ def get_today_calories(owner_id: int, session: Session):
     for food in foods:
         total["calories"] += food.calories
         total["protein"] += food.protein
-        total["calories"] += food.carbs
-        total["calories"] += food.fat
+        total["carbs"] += food.carbs
+        total["fat"] += food.fat
 
 
     return total

@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Health Tracker</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <nav class="navbar">
+      <div class="nav-container">
+        <h1 class="logo">🍎 Health Tracker</h1>
+        <div class="nav-right">
+          <span id="auth-status" class="status-badge">Not signed in</span>
+          <button id="logout-button" type="button" class="btn-logout">Logout</button>
+        </div>
+      </div>
+    </nav>
+
+    <div class="container">
+      <div id="auth-section" class="section active">
+        <h2>Welcome</h2>
+        <div class="auth-grid">
+          <div class="auth-card">
+            <h3>New User?</h3>
+            <form id="register-form">
+              <div class="form-group">
+                <label for="reg-username">Username</label>
+                <input id="reg-username" name="username" type="text" placeholder="Choose a username" required />
+              </div>
+              <div class="form-group">
+                <label for="reg-password">Password</label>
+                <input id="reg-password" name="password" type="password" placeholder="Create a password" required />
+              </div>
+              <button type="submit" class="btn-primary">Create Account</button>
+            </form>
+          </div>
+
+          <div class="auth-card">
+            <h3>Sign In</h3>
+            <form id="login-form">
+              <div class="form-group">
+                <label for="login-username">Username</label>
+                <input id="login-username" name="username" type="text" placeholder="Your username" required />
+              </div>
+              <div class="form-group">
+                <label for="login-password">Password</label>
+                <input id="login-password" name="password" type="password" placeholder="Your password" required />
+              </div>
+              <button type="submit" class="btn-primary">Sign In</button>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <div id="app-section" class="section">
+        <div class="welcome-header">
+          <h2>Analyze Your Meals</h2>
+          <p>Track your nutrition with AI-powered meal analysis</p>
+        </div>
+
+        <div class="card">
+          <h3>📸 Scan Your Meal</h3>
+          <form id="analyze-form">
+            <div class="upload-zone" id="upload-zone">
+              <input id="meal-file" type="file" accept="image/*" hidden required />
+              <div class="upload-prompt">
+                <span class="upload-icon">📷</span>
+                <p>Click to upload or drag & drop</p>
+                <small>PNG, JPG up to 10MB</small>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="user-prompt">Optional Notes</label>
+              <textarea id="user-prompt" placeholder="e.g., 'chicken breast with brown rice and broccoli'" rows="2"></textarea>
+            </div>
+            <button type="submit" class="btn-primary btn-full">Analyze Meal</button>
+          </form>
+          <div id="analysis-result"></div>
+        </div>
+
+        <div class="card">
+          <h3>📊 Today's Nutrition</h3>
+          <button id="daily-button" type="button" class="btn-primary btn-full">Load Today's Macros</button>
+          <div id="daily-output"></div>
+        </div>
+      </div>
+
+      <div id="toast" class="toast"></div>
+    </div>
+
+    <script src="app.js"></script>
+  </body>
+</html>

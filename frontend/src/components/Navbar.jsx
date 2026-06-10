@@ -1,27 +1,18 @@
-import { useNavigate, useLocation } from 'react-router-dom';
-import { LogOut } from 'lucide-react';
+import { useLocation } from 'react-router-dom';
 import './Navbar.css';
 
 function Navbar({ onLogout }) {
-  const navigate = useNavigate();
   const location = useLocation();
-
-  const handleLogout = () => {
-    onLogout();
-  };
 
   return (
     <nav className="navbar">
-      <div className="navbar-container">
-        <h1 className="navbar-title">AI Health Tracker</h1>
-        <div className="navbar-right">
-          {location.pathname === '/dashboard' && (
-            <button className="btn-logout" onClick={handleLogout}>
-              <LogOut size={18} />
-              Logout
-            </button>
-          )}
-        </div>
+      <div className="navbar-inner">
+        <div className="navbar-title">Health Tracker</div>
+        {location.pathname === '/dashboard' && (
+          <button className="logout-link" onClick={onLogout}>
+            Logout
+          </button>
+        )}
       </div>
     </nav>
   );

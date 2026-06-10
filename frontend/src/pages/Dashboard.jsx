@@ -16,6 +16,8 @@ function Dashboard({ setIsAuthenticated }) {
   }, []);
 
   const loadMetrics = async () => {
+    // Clear stale metrics immediately so the UI can't show previous user data.
+    setMetrics(null);
     try {
       setMetricsLoading(true);
       const result = await apiFetch('/daily-macros');

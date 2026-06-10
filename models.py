@@ -19,7 +19,8 @@ class FoodEntry(SQLModel, table=True):
     id: int | None = Field(default=None, primary_key=True)
 
     food_name: str
-    qty:float
+    qty: float
+    
     calories: float
     protein: float
     carbs: float
@@ -31,14 +32,13 @@ class FoodEntry(SQLModel, table=True):
     
 
 class FoodAnalysisResponse(SQLModel):
-    food_name:str
-    qty:float
-
-    calories:float
-    protein:float
-
-    carbs:float
-    fat:float
+    food_name: str
+    qty: float
+    
+    calories: float
+    protein: float
+    carbs: float
+    fat: float
 
 
 
@@ -62,5 +62,4 @@ class UserProfile(SQLModel, table=True):
     owner_id: int = Field(foreign_key="user.id")
 
 
-    
-        
+

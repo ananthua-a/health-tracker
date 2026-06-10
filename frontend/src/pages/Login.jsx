@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import { apiFetch, setToken } from '../api';
+import { apiFetch, setTokens } from '../api';
 import './AuthPages.css';
 
 function Login({ setIsAuthenticated }) {
@@ -26,7 +26,7 @@ function Login({ setIsAuthenticated }) {
         body: body.toString(),
       });
 
-      setToken(result.access_token);
+      setTokens(result);
       setIsAuthenticated(true);
       navigate('/dashboard');
     } catch (err) {

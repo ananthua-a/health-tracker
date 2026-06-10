@@ -1,6 +1,6 @@
 import { BrowserRouter, Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import { useState, useEffect } from 'react';
-import { getToken } from './api';
+import { getToken, getRefreshToken } from './api';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import Dashboard from './pages/Dashboard';
@@ -16,11 +16,11 @@ function RouteContainer({ children }) {
 }
 
 function App() {
-  const [isAuthenticated, setIsAuthenticated] = useState(!!getToken());
+  const [isAuthenticated, setIsAuthenticated] = useState(!!getToken() || !!getRefreshToken());
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    setIsAuthenticated(!!getToken());
+    setIsAuthenticated(!!getToken() || !!getRefreshToken());
     setLoading(false);
   }, []);
 

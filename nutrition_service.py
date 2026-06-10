@@ -63,6 +63,7 @@ def create_food_entry(
         owner_id:int,
         food_name:str,
         quantity:float,
+        unit:str,
         calories:float,
         protein:float,
         carbs:float,
@@ -73,6 +74,7 @@ def create_food_entry(
         owner_id=owner_id,
         food_name=food_name,
         qty=quantity,
+        
         calories=calories,
         protein=protein,
         carbs=carbs,

@@ -1,206 +1,196 @@
 .analyze-meal-section {
-  margin-bottom: 3rem;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
 }
 
-.analyze-meal-section h2 {
-  font-size: 1.75rem;
-  font-weight: 700;
-  letter-spacing: -0.03em;
-  margin: 0 0 0.5rem;
+.section-heading {
+  font-family: 'Geist', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-size: 18px;
+  font-weight: 500;
   color: var(--text-primary);
+  margin: 0;
+  letter-spacing: 0;
 }
 
 .section-subtitle {
+  font-family: 'Geist', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-weight: 400;
+  font-size: 13px;
+  line-height: 1.6;
   color: var(--text-secondary);
-  margin: 0 0 1.5rem;
-  font-size: 0.98rem;
-  max-width: 680px;
+  margin: 0;
+  letter-spacing: 0;
 }
 
-.analyze-card {
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 28px;
-  padding: 2rem;
-  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.16);
+.analyze-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
 }
 
 .upload-zone {
-  border: 2px dashed rgba(255, 255, 255, 0.16);
-  border-radius: 22px;
-  padding: 2.2rem;
-  margin-bottom: 1.5rem;
-  transition: background 0.24s ease, border-color 0.24s ease, transform 0.24s ease;
+  background: rgba(26, 24, 21, 0.5);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  min-height: 140px;
+  padding: 20px;
   cursor: pointer;
+  transition: all 0.22s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.2);
 }
 
 .upload-zone:hover {
-  border-color: rgba(34, 197, 94, 0.45);
-  background: rgba(34, 197, 94, 0.08);
-  transform: translateY(-1px);
+  border-color: var(--border-active);
+  background: rgba(26, 24, 21, 0.7);
+  box-shadow: 
+    inset 0 1px 3px rgba(0, 0, 0, 0.2),
+    0 0 16px rgba(212, 168, 83, 0.08);
 }
 
 .upload-zone.drag-over {
-  border-color: rgba(34, 197, 94, 0.55);
-  background: rgba(34, 197, 94, 0.16);
+  border-color: rgba(212, 168, 83, 0.25);
+  background: rgba(212, 168, 83, 0.05);
+  box-shadow: 
+    inset 0 1px 3px rgba(0, 0, 0, 0.2),
+    0 0 16px rgba(212, 168, 83, 0.12);
 }
 
 .upload-label {
   display: block;
+  width: 100%;
+  height: 100%;
 }
 
 .upload-placeholder {
   display: grid;
-  place-items: center;
-  gap: 0.75rem;
-  color: var(--text-secondary);
+  justify-items: center;
+  gap: 10px;
   text-align: center;
+  color: var(--text-secondary);
 }
 
 .upload-placeholder svg {
-  color: var(--accent);
+  opacity: 0.3;
 }
 
 .upload-placeholder span {
-  font-size: 1.05rem;
-  font-weight: 600;
+  font-family: 'Geist', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-weight: 400;
+  font-size: 13px;
   color: var(--text-primary);
 }
 
 .upload-placeholder small {
-  font-size: 0.88rem;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  color: var(--text-secondary);
 }
 
 .preview-container {
-  position: relative;
   width: 100%;
-  max-width: 360px;
-  margin: 0 auto;
-  border-radius: 22px;
-  overflow: hidden;
 }
 
 .preview-image {
-  display: block;
   width: 100%;
   height: auto;
-  object-fit: cover;
-}
-
-.preview-overlay {
-  position: absolute;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.45);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  opacity: 0;
-  transition: opacity 0.2s ease;
-  color: #fff;
-  font-weight: 600;
-}
-
-.preview-container:hover .preview-overlay {
-  opacity: 1;
+  display: block;
+  border-radius: 4px;
 }
 
 .form-group {
-  margin-bottom: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 }
 
 .form-group label {
-  display: block;
-  margin-bottom: 0.6rem;
-  font-weight: 600;
-  color: var(--text-primary);
-  font-size: 0.9rem;
+  font-family: 'Geist', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-weight: 400;
+  font-size: 12px;
+  color: var(--text-secondary);
 }
 
 .form-group textarea {
   width: 100%;
-  padding: 1rem;
-  background: rgba(255, 255, 255, 0.05);
+  padding: 10px 12px;
+  background: var(--surface);
   color: var(--text-primary);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 18px;
-  font-size: 0.98rem;
-  font-family: 'Inter', inherit;
+  border: 0.5px solid var(--border);
+  border-radius: 5px;
+  font-size: 13px;
+  font-family: 'Geist', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-weight: 400;
   resize: vertical;
+  transition: all 0.22s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.form-group textarea:hover {
+  border-color: var(--border);
 }
 
 .form-group textarea:focus {
-  border-color: rgba(34, 197, 94, 0.55);
-  background: rgba(255, 255, 255, 0.1);
-}
-
-.form-group textarea:disabled {
-  opacity: 0.7;
-  cursor: not-allowed;
+  border-color: var(--border-active);
+  background: rgba(26, 24, 21, 0.8);
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
 }
 
 .error-box {
   display: flex;
   align-items: center;
-  gap: 0.75rem;
-  padding: 1rem;
-  background: rgba(239, 68, 68, 0.12);
-  border: 1px solid rgba(239, 68, 68, 0.28);
-  border-radius: 18px;
-  color: #fecaca;
-  font-size: 0.95rem;
-  margin-bottom: 1.5rem;
+  gap: 10px;
+  padding: 12px 14px;
+  border: 0.5px solid rgba(192, 57, 43, 0.25);
+  color: var(--danger);
+  background: rgba(192, 57, 43, 0.06);
+  font-size: 12px;
+  font-family: 'Geist', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  border-radius: 5px;
 }
 
 .btn-analyze {
-  width: 100%;
-  padding: 1rem 1.1rem;
-  background: rgba(34, 197, 94, 0.18);
-  color: var(--text-primary);
-  font-weight: 700;
-  border-radius: 18px;
-  border: 1px solid rgba(34, 197, 94, 0.28);
+  width: fit-content;
+  background: var(--accent);
+  color: #0F0E0C;
+  border-radius: 5px;
+  font-family: 'Geist', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-weight: 500;
+  font-size: 12px;
+  letter-spacing: 0.02em;
+  text-transform: none;
+  padding: 9px 18px;
+  border: none;
+  transition: all 0.22s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 2px 8px rgba(212, 168, 83, 0.12);
 }
 
 .btn-analyze:hover:not(:disabled) {
-  background: rgba(34, 197, 94, 0.26);
+  background: #DEB966;
+  box-shadow: 0 4px 12px rgba(212, 168, 83, 0.2);
   transform: translateY(-1px);
-  box-shadow: 0 18px 40px rgba(34, 197, 94, 0.16);
 }
 
 .btn-analyze:disabled {
-  opacity: 0.6;
+  opacity: 0.5;
   cursor: not-allowed;
 }
 
 .results-section {
-  margin-top: 2rem;
-  padding-top: 2rem;
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
 }
 
 .results-section h3 {
-  font-size: 1.35rem;
-  font-weight: 700;
-  margin: 0 0 1rem;
+  margin: 0;
+  font-size: 16px;
+  font-weight: 300;
   color: var(--text-primary);
 }
 
-.foods-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 1rem;
-}
-
-@media (max-width: 768px) {
-  .analyze-card {
-    padding: 1.5rem;
-  }
-
-  .upload-zone {
-    padding: 1.6rem;
-  }
-
-  .foods-grid {
-    grid-template-columns: 1fr;
-  }
+.foods-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
 }

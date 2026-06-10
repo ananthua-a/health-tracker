@@ -3,7 +3,7 @@ from fastapi.security import OAuth2PasswordRequestForm
 from sqlmodel import select
 from db import create_db_and_tables,get_session,Session
 from models import UserCreate,User,FoodAnalysisResponse,AnalyzeImageResponse,FoodEntry
-from security import Hash_password,create_access_token,create_refresh_token,verify_password,get_current_user
+from security import Hash_password,create_access_token,create_refresh_token,verify_password,get_current_user,exchange_refresh_token
 from exception import global_exception_handler
 from ai_service import analyze_meal_image
 from nutrition_service import create_food_entry,get_macros
@@ -127,6 +127,7 @@ async def analyze_image(
             owner_id=current_user.id,
             food_name=items["name"],
             quantity=items["quantity"],
+            unit=items.get("unit", "g"),
             **macros,
             session=session
             
@@ -137,6 +138,7 @@ async def analyze_image(
              FoodAnalysisResponse(
              food_name=items["name"],
               qty=items["quantity"],
+              
              calories=macros["calories"],
              protein=macros["protein"],
              carbs=macros["carbs"],
@@ -160,23 +162,9 @@ def daily_calories(current_user: User = Depends(get_current_user), session: Sess
     total = get_today_calories(current_user.id, session)
     return {"total_macros": total}
 
-@app.get("/foods/today")
-def get_today_foods(
-    current_user: User = Depends(get_current_user),
-    session: Session = Depends(get_session)
-):
-
-    today = datetime.today()
-
-    statement = select(FoodEntry).where(
-        FoodEntry.owner_id == current_user.id,
-        FoodEntry.created_at >= today
-    )
-
-    foods = session.exec(statement).all()
-    print(foods)
 
 
-    return foods
-#fin
+@app.post("/refresh")
+def refresh_token(refresh_token:str):
+    return  exchange_refresh_token(refresh_token)
 

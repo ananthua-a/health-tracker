@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Upload, AlertCircle } from 'lucide-react';
+import { Camera, AlertCircle } from 'lucide-react';
 import { apiFetch } from '../api';
 import FoodCard from './FoodCard';
 import './AnalyzeMealSection.css';
@@ -86,65 +86,62 @@ function AnalyzeMealSection({ onMealAnalyzed }) {
 
   return (
     <section className="analyze-meal-section">
-      <h2>Analyze Meal</h2>
+      <h2 className="section-heading">Analyze meal</h2>
       <p className="section-subtitle">Upload a meal image and let AI estimate nutrition.</p>
 
-      <div className="analyze-card">
-        <form onSubmit={handleAnalyze}>
-          <div className="upload-zone" onDragOver={handleDragOver} onDragLeave={handleDragLeave} onDrop={handleDrop}>
-            <input
-              type="file"
-              id="meal-upload"
-              accept="image/*"
-              onChange={handleFileChange}
-              disabled={loading}
-              style={{ display: 'none' }}
-            />
-            <label htmlFor="meal-upload" className="upload-label">
-              {preview ? (
-                <div className="preview-container">
-                  <img src={preview} alt="Preview" className="preview-image" />
-                  <div className="preview-overlay">Change image</div>
-                </div>
-              ) : (
-                <div className="upload-placeholder">
-                  <Upload size={32} />
-                  <span>Drag & drop or click to upload</span>
-                  <small>PNG, JPG, WebP up to 10MB</small>
-                </div>
-              )}
-            </label>
+      <form onSubmit={handleAnalyze} className="analyze-form">
+        <div className="upload-zone" onDragOver={handleDragOver} onDragLeave={handleDragLeave} onDrop={handleDrop}>
+          <input
+            type="file"
+            id="meal-upload"
+            accept="image/*"
+            onChange={handleFileChange}
+            disabled={loading}
+            style={{ display: 'none' }}
+          />
+          <label htmlFor="meal-upload" className="upload-label">
+            {preview ? (
+              <div className="preview-container">
+                <img src={preview} alt="Preview" className="preview-image" />
+              </div>
+            ) : (
+              <div className="upload-placeholder">
+                <Camera size={18} style={{ opacity: 0.25 }} />
+                <span>Upload meal photo</span>
+                <small>PNG, JPG, WebP up to 10MB</small>
+              </div>
+            )}
+          </label>
+        </div>
+
+        <div className="form-group">
+          <label htmlFor="prompt">Optional Notes</label>
+          <textarea
+            id="prompt"
+            value={prompt}
+            onChange={(e) => setPrompt(e.target.value)}
+            placeholder="e.g., 'Chicken breast with brown rice and broccoli'"
+            rows={3}
+            disabled={loading}
+          />
+        </div>
+
+        {error && (
+          <div className="error-box">
+            <AlertCircle size={18} />
+            {error}
           </div>
+        )}
 
-          <div className="form-group">
-            <label htmlFor="prompt">Optional Notes</label>
-            <textarea
-              id="prompt"
-              value={prompt}
-              onChange={(e) => setPrompt(e.target.value)}
-              placeholder="e.g., 'Chicken breast with brown rice and broccoli'"
-              rows={3}
-              disabled={loading}
-            />
-          </div>
-
-          {error && (
-            <div className="error-box">
-              <AlertCircle size={18} />
-              {error}
-            </div>
-          )}
-
-          <button type="submit" className="btn-analyze" disabled={loading || !selectedFile}>
-            {loading ? 'Analyzing with AI...' : 'Analyze Meal'}
-          </button>
-        </form>
-      </div>
+        <button type="submit" className="btn-analyze" disabled={loading || !selectedFile}>
+          {loading ? 'Analyzing meal...' : 'Analyze Meal'}
+        </button>
+      </form>
 
       {results && results.length > 0 && (
         <div className="results-section">
           <h3>Detected Foods</h3>
-          <div className="foods-grid">
+          <div className="foods-list">
             {results.map((food, index) => (
               <FoodCard key={index} food={food} />
             ))}

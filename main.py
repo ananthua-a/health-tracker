@@ -2,10 +2,11 @@ from fastapi import FastAPI,Depends,HTTPException,Request,UploadFile
 from fastapi.security import OAuth2PasswordRequestForm
 from sqlmodel import select
 from db import create_db_and_tables,get_session,Session
-from models import UserCreate,User
-from security import Hash_password,create_access_token,create_refresh_token,verify_password
+from models import UserCreate,User,FoodAnalysisResponse,AnalyzeImageResponse
+from security import Hash_password,create_access_token,create_refresh_token,verify_password,get_current_user
 from exception import global_exception_handler
 from ai_service import analyze_meal_image
+from nutrition_service import create_food_entry,get_macros
 app =FastAPI()
 import time
 
@@ -100,13 +101,73 @@ def login(
 @app.post("/analyze-image")
 async def analyze_image(
     file: UploadFile,
-    user_prompt: str | None = None
+    user_prompt: str | None = None,current_user:User=Depends(get_current_user),
+    session:Session=Depends(get_session)
 ):
 
     image_bytes = await file.read()
 
-    return analyze_meal_image(
+    if current_user.id is None:
+        raise HTTPException(
+            status_code=400,
+            detail="Authenticated user missing id"
+        )
+
+    foods=analyze_meal_image(
         image=image_bytes,
         mime_type=file.content_type or "application/octet-stream",
         user_prompt=user_prompt
+    )
+    response_foods = []
+    for items in foods["foods"]:
+        macros=get_macros(items["name"],items["quantity"])
+        create_food_entry(
+            owner_id=current_user.id,
+            food_name=items["name"],
+            quantity=items["quantity"],
+            **macros,
+            session=session
+            
+        )
+
+    
+        response_foods.append(
+             FoodAnalysisResponse(
+             food_name=items["name"],
+              qty=items["quantity"],
+             calories=macros["calories"],
+             protein=macros["protein"],
+             carbs=macros["carbs"],
+             fat=macros["fat"]
+             )
+        )
+    return AnalyzeImageResponse(
+        foods=response_foods
+    )
+          
+ 
+     
+
+
+@app.post("/food-entry")
+def add_food(
+    owner_id: int,
+    food_name: str,
+    quantity: float,
+    calories: float,
+    protein: float,
+    carbs: float,
+    fat: float,
+    session: Session = Depends(get_session)
+):
+
+    return create_food_entry(
+        owner_id=owner_id,
+        food_name=food_name,
+        quantity=quantity,
+        calories=calories,
+        protein=protein,
+        carbs=carbs,
+        fat=fat,
+        session=session
     )

@@ -3,8 +3,21 @@ import react from '@vitejs/plugin-react'
 
 export default defineConfig({
   plugins: [react()],
+  server: {
+    proxy: {
+      '/api': {
+        target: process.env.API_TARGET || 'http://localhost:8000',
+        changeOrigin: true,
+        // frontend code calls `/api/...`; backend routes are `/<...>`.
+        // rewrite `/api/*` -> `/*`.
+        rewrite: (path) => path.replace(/^\/api/, ''),
+
+      },
+    },
+  },
   build: {
     outDir: 'dist',
     emptyOutDir: true,
-  }
+  },
 })
+

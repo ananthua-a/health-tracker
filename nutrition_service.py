@@ -38,23 +38,36 @@ def get_nutrient(food_nutrients, nutrient_id):
 # fat = get_nutrient(nutrients, 1004)
 # carbs = get_nutrient(nutrients, 1005)
 
-def get_macros(food_name:str,qty:float):
-    data=search_food(food_name)
-    food=data["foods"][0]
-    nutrients=food["foodNutrients"]
+def get_macros(food_name: str, qty: float):
+    data = search_food(food_name)
+
+    foods = data.get("foods") or []
+    if not foods:
+        # Avoid crashing when USDA returns no matches.
+        return {
+            "calories": 0.0,
+            "protein": 0.0,
+            "fat": 0.0,
+            "carbs": 0.0,
+        }
+
+    food = foods[0]
+    nutrients = food.get("foodNutrients") or []
 
     calories = get_nutrient(nutrients, 1008)
     protein = get_nutrient(nutrients, 1003)
     fat = get_nutrient(nutrients, 1004)
     carbs = get_nutrient(nutrients, 1005)
 
-    factor=qty/100
+    factor = qty / 100 if qty is not None else 0
 
     return {
         "calories": round(calories * factor, 2),
         "protein": round(protein * factor, 2),
         "fat": round(fat * factor, 2),
-        "carbs": round(carbs * factor, 2)}
+        "carbs": round(carbs * factor, 2),
+    }
+
 
         
     

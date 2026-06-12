@@ -1,30 +1,14 @@
+# Health Tracker
 
-# Calorie Tracker V1
+A full-stack nutrition tracking application built with FastAPI and React. Users can upload meal images, extract food information using AI, retrieve nutritional data from USDA FoodData Central, and track daily macronutrients.
 
-A backend-focused  calorie tracking application built with FastAPI. Users can upload meal images, automatically extract food information using an AI model, fetch nutritional data from USDA FoodData Central, and track daily macronutrients.
-
----
-
-## Overview
-
-Calorie Tracker V1 focuses primarily on backend engineering concepts rather than UI complexity.
-
-The system combines:
-
-* Authentication and authorization
-* REST API development
-* Database design
-* AI integration
-* External API consumption
-* Daily nutrition aggregation
-
-The frontend is intentionally lightweight while most of the logic resides inside the backend.
+The project focuses primarily on backend engineering, API design, authentication, database interaction, external service integration, and containerized deployment.
 
 ---
 
 ## Features
 
-### User Authentication
+### Authentication
 
 * User registration
 * Secure password hashing with bcrypt
@@ -34,13 +18,13 @@ The frontend is intentionally lightweight while most of the logic resides inside
 
 ### AI Meal Analysis
 
-Users can upload a meal image and optionally provide extra information such as portion sizes.
+Users can upload meal images and optionally provide additional context such as portion sizes.
 
 The AI model:
 
-* identifies foods
-* estimates missing quantities
-* normalizes food names
+* Identifies foods
+* Estimates missing quantities
+* Normalizes food names
 
 Example:
 
@@ -67,38 +51,34 @@ The system calculates:
 * Carbohydrates
 * Fat
 
-### Food Entry Storage
+### Daily Macro Tracking
 
-Each analyzed food item is stored in the database and associated with the authenticated user.
-
-### Daily Macro Aggregation
-
-The API calculates daily totals:
+The API aggregates daily totals:
 
 * Total calories
 * Total protein
 * Total carbohydrates
 * Total fat
 
+### Persistent Storage
+
+Food entries are associated with authenticated users and stored in PostgreSQL.
+
 ---
 
-## Backend Architecture
+## Architecture
 
 ```text
-Frontend
-     ↓
+React + Vite
+       ↓
 FastAPI
-     ↓
+       ↓
 AI Service
-     ↓
+       ↓
 USDA FoodData Central
-     ↓
-SQLModel + SQLite/PostgreSQL
+       ↓
+PostgreSQL
 ```
-
-The AI layer is responsible only for identifying foods and quantities.
-
-Nutritional values are retrieved from USDA to provide deterministic and reliable macro calculations.
 
 ---
 
@@ -108,20 +88,25 @@ Nutritional values are retrieved from USDA to provide deterministic and reliable
 
 * FastAPI
 * SQLModel
-* SQLite/PostgreSQL
+* PostgreSQL
 * JWT Authentication
 * Passlib
 * Python
+
+### Frontend
+
+* React
+* Vite
 
 ### External Services
 
 * Google Gemini / OpenRouter
 * USDA FoodData Central API
 
-### Frontend
+### Infrastructure
 
-* React
-* Vite
+* Docker
+* Docker Compose
 
 ---
 
@@ -141,7 +126,7 @@ POST /refresh
 POST /analyze-image
 ```
 
-### Daily Nutrition
+### Nutrition
 
 ```text
 GET /daily-macros
@@ -151,22 +136,32 @@ GET /daily-macros
 
 ## Security
 
-* Password hashing using bcrypt
-* JWT access tokens
+* Password hashing with bcrypt
+* JWT authentication
 * Refresh token mechanism
 * Protected endpoints
-* User-specific food records
+* User-specific records
+* Environment variables isolated from source code
 
 ---
 
-## Example Workflow
+## Running with Docker
 
-1. User logs in.
-2. User uploads a meal image.
-3. AI identifies foods and quantities.
-4. USDA provides nutritional information.
-5. Food entries are stored.
-6. Daily totals are calculated.
+```bash
+docker compose up
+```
+
+Backend:
+
+```text
+http://localhost:8000/docs
+```
+
+Frontend:
+
+```text
+http://localhost:5173
+```
 
 ---
 
@@ -174,16 +169,22 @@ GET /daily-macros
 
 ```text
 health-tracker/
-
-main.py
-models.py
-db.py
-security.py
-nutrition_service.py
-ai_service.py
-service.py
-config.py
-exception.py
+│
+├── main.py
+├── models.py
+├── db.py
+├── security.py
+├── ai_service.py
+├── nutrition_service.py
+├── service.py
+├── config.py
+├── exception.py
+├── Dockerfile
+├── docker-compose.yml
+│
+├── frontend/
+│   ├── src/
+│   └── Dockerfile
 ```
 
 ---
@@ -192,23 +193,24 @@ exception.py
 
 ### Backend
 
-* Docker support
 * Redis caching
 * Rate limiting
 * Background tasks
-* PostgreSQL migrations with Alembic
-* Activity tracking integration
-* Maintenance calorie calculations
+* WebSockets
+* Alembic migrations
+* Activity tracking
+* Maintenance calorie estimation
 
 ### Infrastructure
 
-* Docker Compose
-* AWS deployment
+* Persistent Docker volumes
+* Nginx reverse proxy
 * CI/CD pipeline
+* AWS deployment
 * Monitoring and logging
 
 ---
 
 ## Goal
 
-This project was built primarily to practice backend development, API design, authentication, database interaction, and external service integration using FastAPI.
+This project was built to practice backend engineering, authentication, API design, database interaction, AI integration, and modern containerized application development.

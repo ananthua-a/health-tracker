@@ -24,3 +24,6 @@ Thumbs.db
 
 # SQLite database (if you ever use one)
 *.db
+.env
+.env.docker
+
